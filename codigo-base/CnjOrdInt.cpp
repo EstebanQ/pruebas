@@ -27,7 +27,20 @@ bool CnjOrdInt::eliminar(int x) {
 }
 
 bool CnjOrdInt::buscar(int x) const {
-
+    bool rsl = false;
+    NdoInt* p = inicio;
+    while(p != 0){
+        if (p->dato == x){ // ya se encontró x en *this
+            rsl = true;
+            p = 0;
+        } else { // todavía no se encuentra pero puede que esté más adelante
+            if (p->dato < x)
+                p = p->sgt;
+            else // se concluye que x no está en *this
+                p = 0;
+        }
+    }
+    return rsl;
 }
 
 CnjOrdInt& CnjOrdInt::operator+(const CnjOrdInt& b) const {
@@ -44,5 +57,12 @@ CnjOrdInt& CnjOrdInt::operator/(const CnjOrdInt& b) const {
 }
 
 string CnjOrdInt::aHil() {
-   
+    stringstream fs;
+    NdoInt* p = inicio;
+    
+    while(p != nullptr){
+        fs << p->dato << ',';
+        p = p->sgt;
+    }
+    return fs.str();    
 }
